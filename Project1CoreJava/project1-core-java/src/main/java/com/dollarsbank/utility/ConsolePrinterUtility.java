@@ -12,5 +12,10 @@ public class ConsolePrinterUtility {
         System.out.println("Enter Choice (1, 2 or 3): ");
     }
 
+    public static void createAccountPrinter() {
+        System.out.println("+-------------------------------+");
+        System.out.println("| Enter Details For New Account |");
+        System.out.println("+-------------------------------+");
+    }
     
 }

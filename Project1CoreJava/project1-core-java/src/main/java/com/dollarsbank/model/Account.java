@@ -9,7 +9,7 @@ public class Account {
     private float custInitialDepositAmount;
 
     public Account() {
-        
+
     }
 
     public Account(String custName, String custAddress, int custPhoneNumber, int custUserId, String custPassword,
@@ -59,5 +59,13 @@ public class Account {
         this.custInitialDepositAmount = custInitialDepositAmount;
     }
 
+    @Override
+    public String toString() {
+        return "Account [custName=" + custName + ", custAddress=" + custAddress + ", custPhoneNumber=" + custPhoneNumber
+                + ", custUserId=" + custUserId + ", custPassword=" + custPassword + ", custInitialDepositAmount="
+                + custInitialDepositAmount + "]";
+    }
+
+    
     
 }
