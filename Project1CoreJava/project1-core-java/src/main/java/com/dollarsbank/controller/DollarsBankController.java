@@ -68,6 +68,7 @@ public class DollarsBankController {
         scanner.nextLine(); // Clear buffer
         ConsolePrinterUtility.createAccountPrinter();
 
+        // Get and Validate Customer Name
         boolean validName = false;
         String custName = "";
         do {
@@ -79,7 +80,7 @@ public class DollarsBankController {
             }
         } while (!validName);
         
-
+        // Get and Validate Customer Address
         boolean validAddress = false;
         String custAddress = "";
         do {
@@ -91,11 +92,27 @@ public class DollarsBankController {
             }
         } while (!validAddress);
         
+        // Get and Validate Customer Phone Number
+        boolean validPhoneNumber = false;
+        int custPhoneNumber = 0;
+        do {
+            System.out.println("\nCustomer Contact Number: ");
+            try {
+                custPhoneNumber = scanner.nextInt();
+                validPhoneNumber = validatePhoneNumber(custPhoneNumber);
+                if (!validPhoneNumber) {
+                    System.out.println("\nPlease enter a valid ten digit phone number (i.e. 1234567890)");
+                }
+            }
+            catch (InputMismatchException e) {
+                System.out.println("\nPlease enter a valid ten digit phone number (i.e. 1234567890)");
+            }
+            
+            scanner.nextLine(); // Clear buffer
 
-        System.out.println("\nCustomer Contact Number: ");
-        int custPhoneNumber = scanner.nextInt();
-        scanner.nextLine(); // Clear buffer
+        } while(!validPhoneNumber);
 
+        // Get and Validate Customer User Id
         System.out.println("\nUser Id: ");
         int custId = scanner.nextInt();
         scanner.nextLine();
@@ -321,5 +338,15 @@ public class DollarsBankController {
 
     private static boolean validateName(String name) {
         return name.matches("^[A-Z]\\w+\\s[A-Z]\\w+");
+    }
+
+    private static boolean validatePhoneNumber(int number) {
+        String num = Integer.toString(number);
+        return num.matches("[0-9]{10}");
+    }
+
+    private static boolean validateUserId(int number) {
+        String num = Integer.toString(number);
+        return num.matches("[1-9]+");
     }
 }
