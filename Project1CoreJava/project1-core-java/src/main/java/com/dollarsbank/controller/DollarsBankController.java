@@ -2,6 +2,7 @@ package com.dollarsbank.controller;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
@@ -140,18 +141,20 @@ public class DollarsBankController {
                         makeDeposit();
                         break;
                     case 2:
-                        makeWithdrawal();
                         // Make Withdrawal
+                        makeWithdrawal();
                         break;
                     case 3:
-                        transferFunds();
                         // Transfer Funds
+                        transferFunds();
                         break;
                     case 4:
                         // View 5 Recent Transactions
+                        viewRecentTransactions();
                         break;
                     case 5:
                         // Display Customer Information
+                        displayCustInfo();
                         break;
                     case 6:
                         welcome();
@@ -171,10 +174,10 @@ public class DollarsBankController {
                     || userChoice == 6) {
                 isValidChoice = true;
             } else {
-                System.out.println("Please Enter a Valid Choice (1, 2, or 3): ");
+                System.out.println("Please Enter a Valid Choice (1, 2, 3, 4, 5, or 6): ");
             }
         } catch (InputMismatchException e) {
-            System.out.println("Please Enter a Valid Numeric Choice (1, 2, or 3): ");
+            System.out.println("Please Enter a Valid Numeric Choice (1, 2, 3, 4, 5, or 6): ");
         }
 
         return userChoice;
@@ -190,7 +193,7 @@ public class DollarsBankController {
             if (currentAccountId == userId) {
                 accountTransactionMap.get(account).add(deposit);
                 account.setCustBalance(account.getCustBalance() + deposit);
-                System.out.println("Deposit successful!");
+                System.out.println("\nDeposit successful!\n");
             }
         }
 
@@ -212,7 +215,7 @@ public class DollarsBankController {
             if (currentAccountId == userId) {
                 accountTransactionMap.get(account).add(withdrawal);
                 account.setCustBalance(account.getCustBalance() + withdrawal);
-                System.out.println("Withdrawal successful!");
+                System.out.println("\nWithdrawal successful!\n");
             }
         }
 
@@ -238,19 +241,59 @@ public class DollarsBankController {
 
                 savings = new SavingsAccount(userId, account.getCustPassword(), savings.getCustBalance() + (transfer * -1));
 
-                System.out.println("Transfer successful!");
+                System.out.println("\nTransfer successful!\n");
             }
         }
 
-        for (Account account : accountTransactionMap.keySet()) {
-            System.out.println(account.getCustBalance());
-            System.out.println(accountTransactionMap.get(account).toString());
-        }
+        // for (Account account : accountTransactionMap.keySet()) {
+        //     System.out.println(account.getCustBalance());
+        //     System.out.println(accountTransactionMap.get(account).toString());
+        // }
 
-        System.out.println(savings.toString());
+        // System.out.println(savings.toString());
 
         loginOptions();
+    }
 
+    private static void viewRecentTransactions() {
+        for (Account account : accountTransactionMap.keySet()) {
+            int userId = account.getCustUserId();
+
+            if (currentAccountId == userId) {
+                List<Float> transactionList = accountTransactionMap.get(account);
+
+                for (int i = transactionList.size() - 1; i >= 0; i--) {
+                    if (transactionList.get(i) > 0.0) {
+                        System.out.println("Deposit of $" + transactionList.get(i) + ".");
+                    }
+                    else if (transactionList.get(i) < 0.0) {
+                        System.out.println("Withdrawal or Transfer of $" + transactionList.get(i) * -1 + ".");
+                    }
+                    else {
+                        System.out.println("There was an operation, but of $0.00.");
+                    }
+                }
+
+                System.out.println("Balance - " + account.getCustBalance());
+            }
+        }
+
+        loginOptions();
+    }
+
+    private static void displayCustInfo() {
+        for (Account account : accountTransactionMap.keySet()) {
+            int userId = account.getCustUserId();
+
+            if (currentAccountId == userId) {
+                System.out.println("Customer Name: " + account.getCustName());
+                System.out.println("Customer Address: " + account.getCustAddress());
+                System.out.println("Customer Phone: " + account.getCustPhoneNumber());
+                System.out.println("Customer Balance: " + account.getCustBalance());
+            }
+        }
+
+        loginOptions();
     }
 
 }
