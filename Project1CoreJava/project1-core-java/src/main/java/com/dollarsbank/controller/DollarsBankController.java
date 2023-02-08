@@ -9,6 +9,7 @@ import java.util.Map;
 
 import com.dollarsbank.utility.ConsolePrinterUtility;
 import com.dollarsbank.model.Account;
+import com.dollarsbank.model.SavingsAccount;
 
 public class DollarsBankController {
     static Scanner scanner = new Scanner(System.in);
@@ -84,14 +85,15 @@ public class DollarsBankController {
 
         System.out.println("Initial Deposit Amount: ");
         float initialDeposit = scanner.nextFloat();
-        scanner.nextLine();  //TODO: Probaly can get rid of this
+        scanner.nextLine(); // TODO: Probaly can get rid of this
 
-        Account account = new Account(custName, custAddress, custPhoneNumber, custId, password, initialDeposit, initialDeposit);
+        Account account = new Account(custName, custAddress, custPhoneNumber, custId, password, initialDeposit,
+                initialDeposit);
 
         return account;
     }
 
-    public static void login() {  //TODO: test this
+    public static void login() { // TODO: test this
         scanner.nextLine();
         boolean accountFound = false;
 
@@ -142,6 +144,7 @@ public class DollarsBankController {
                         // Make Withdrawal
                         break;
                     case 3:
+                        transferFunds();
                         // Transfer Funds
                         break;
                     case 4:
@@ -156,15 +159,16 @@ public class DollarsBankController {
                         System.out.println("Invalid Choice!");
                 }
 
-            } while(!isValidLoginChoice);
-        } while(true);
+            } while (!isValidLoginChoice);
+        } while (true);
     }
 
     private static int getUserLoginChoice() {
         int userChoice = 0;
         try {
             userChoice = scanner.nextInt();
-            if (userChoice == 1 || userChoice == 2 || userChoice == 3 || userChoice == 4 || userChoice == 5 || userChoice == 6) {
+            if (userChoice == 1 || userChoice == 2 || userChoice == 3 || userChoice == 4 || userChoice == 5
+                    || userChoice == 6) {
                 isValidChoice = true;
             } else {
                 System.out.println("Please Enter a Valid Choice (1, 2, or 3): ");
@@ -191,29 +195,62 @@ public class DollarsBankController {
         }
 
         // for (Account account : accountTransactionMap.keySet()) {
-        //     System.out.println(account.getCustBalance());
-        //     System.out.println(accountTransactionMap.get(account).toString());
+        // System.out.println(account.getCustBalance());
+        // System.out.println(accountTransactionMap.get(account).toString());
         // }
 
         loginOptions();
     }
 
-    private static void makeWithdrawal() {
+    private static void makeWithdrawal() { // TODO: Validation
         System.out.println("Enter withdrawal amount: ");
         float withdrawal = scanner.nextFloat() * -1;
 
         for (Account account : accountTransactionMap.keySet()) {
-            accountTransactionMap.get(account).add(withdrawal);
-            account.setCustBalance(account.getCustBalance() + withdrawal);
-            System.out.println("Withdrawal successful!");
+            int userId = account.getCustUserId();
+
+            if (currentAccountId == userId) {
+                accountTransactionMap.get(account).add(withdrawal);
+                account.setCustBalance(account.getCustBalance() + withdrawal);
+                System.out.println("Withdrawal successful!");
+            }
         }
 
-        // for (Account account : accountTransactionMap.keySet()) {
-        //     System.out.println(account.getCustBalance());
-        //     System.out.println(accountTransactionMap.get(account).toString());
-        // }
+        for (Account account : accountTransactionMap.keySet()) {
+        System.out.println(account.getCustBalance());
+        System.out.println(accountTransactionMap.get(account).toString());
+        }
 
         loginOptions();
+    }
+
+    private static void transferFunds() {  //TODO: Validation (make sure user enters valid amount and doesn't go over their balance)
+        System.out.println("Enter how much you would like to transfer to your savings: ");
+        float transfer = scanner.nextFloat() * -1;
+        SavingsAccount savings = new SavingsAccount();
+
+        for (Account account : accountTransactionMap.keySet()) {
+            int userId = account.getCustUserId();
+
+            if (currentAccountId == userId) {
+                accountTransactionMap.get(account).add(transfer);
+                account.setCustBalance(account.getCustBalance() + transfer);
+
+                savings = new SavingsAccount(userId, account.getCustPassword(), savings.getCustBalance() + (transfer * -1));
+
+                System.out.println("Transfer successful!");
+            }
+        }
+
+        for (Account account : accountTransactionMap.keySet()) {
+            System.out.println(account.getCustBalance());
+            System.out.println(accountTransactionMap.get(account).toString());
+        }
+
+        System.out.println(savings.toString());
+
+        loginOptions();
+
     }
 
 }
