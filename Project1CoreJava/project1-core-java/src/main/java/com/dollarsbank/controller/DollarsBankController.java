@@ -109,13 +109,49 @@ public class DollarsBankController {
             }
             
             scanner.nextLine(); // Clear buffer
-
         } while(!validPhoneNumber);
 
         // Get and Validate Customer User Id
-        System.out.println("\nUser Id: ");
-        int custId = scanner.nextInt();
-        scanner.nextLine();
+        boolean validIdFormat = false;
+        boolean isTaken = false;
+        int custId = 0;
+
+        do {
+            System.out.println("\nUser Id: ");
+            try {
+                custId = scanner.nextInt();
+                validIdFormat = validateUserId(custId);
+                if (!validIdFormat) {
+                    System.out.println("\nPlease enter a valid user id greater than 0 (i.e. 15)");
+                }
+
+                // Check if userId is already taken
+                isTaken = false;
+                for (Account account : accountTransactionMap.keySet()) {
+                    int accountId = account.getCustUserId();
+                    
+                    if (accountId == custId) {
+                        isTaken = true; // id is taken
+                    }
+                }
+                if (isTaken) {
+                    System.out.println("\nPlease choose another user id, " + custId + " is taken already!");
+                }
+
+            }
+            catch(InputMismatchException e) {
+                System.out.println("\nPlease enter a valid user id greater than 0 (i.e. 15)");
+            }
+            scanner.nextLine();
+
+        } while(!validIdFormat || isTaken);
+
+        
+        
+
+
+
+
 
         System.out.println("\nPassword: 8 Characters with Lower, Upper & Special");
         String password = scanner.nextLine();
