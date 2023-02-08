@@ -7,19 +7,21 @@ public class Account {
     private int custUserId;
     private String custPassword;
     private float custInitialDepositAmount;
+    private float custBalance;
 
     public Account() {
 
     }
 
     public Account(String custName, String custAddress, int custPhoneNumber, int custUserId, String custPassword,
-            float custInitialDepositAmount) {
+            float custInitialDepositAmount, float custBalance) {
         this.custName = custName;
         this.custAddress = custAddress;
         this.custPhoneNumber = custPhoneNumber;
         this.custUserId = custUserId;
         this.custPassword = custPassword;
         this.custInitialDepositAmount = custInitialDepositAmount;
+        this.custBalance = custBalance;
     }
 
     public String getCustName() {
@@ -57,6 +59,12 @@ public class Account {
     }
     public void setCustInitialDepositAmount(float custInitialDepositAmount) {
         this.custInitialDepositAmount = custInitialDepositAmount;
+    }
+    public float getCustBalance() {
+        return custBalance;
+    }
+    public void setCustBalance(float custBalance) {
+        this.custBalance = custBalance;
     }
 
     @Override

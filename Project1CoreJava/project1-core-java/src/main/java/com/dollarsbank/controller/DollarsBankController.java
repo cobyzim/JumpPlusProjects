@@ -15,6 +15,8 @@ public class DollarsBankController {
     static boolean isValidChoice = false;
     static boolean isValidLoginChoice = false;
 
+    public static int currentAccountId = 0;
+
     static Map<Account, List<Float>> accountTransactionMap = new HashMap<>();
     static List<Float> transactionList = new ArrayList<>();
 
@@ -84,7 +86,7 @@ public class DollarsBankController {
         float initialDeposit = scanner.nextFloat();
         scanner.nextLine();  //TODO: Probaly can get rid of this
 
-        Account account = new Account(custName, custAddress, custPhoneNumber, custId, password, initialDeposit);
+        Account account = new Account(custName, custAddress, custPhoneNumber, custId, password, initialDeposit, initialDeposit);
 
         return account;
     }
@@ -109,6 +111,7 @@ public class DollarsBankController {
 
                 if (userId == loginId && userPwd.equals(loginPassword)) {
                     accountFound = true;
+                    currentAccountId = loginId;
                     break;
                 }
             }
@@ -132,6 +135,7 @@ public class DollarsBankController {
                 switch (userChoice) {
                     case 1:
                         // Make Deposit
+                        makeDeposit();
                         break;
                     case 2:
                         // Make Withdrawal
@@ -169,6 +173,28 @@ public class DollarsBankController {
         }
 
         return userChoice;
+    }
+
+    public static void makeDeposit() { // TODO: Validation (Make sure deposit is positive value)
+        System.out.println("Enter deposit amount: ");
+        float deposit = scanner.nextFloat();
+
+        for (Account account : accountTransactionMap.keySet()) {
+            int userId = account.getCustUserId();
+
+            if (currentAccountId == userId) {
+                accountTransactionMap.get(account).add(deposit);
+                account.setCustBalance(account.getCustBalance() + deposit);
+                System.out.println("Deposit successful!");
+            }
+        }
+
+        // for (Account account : accountTransactionMap.keySet()) {
+        //     System.out.println(account.getCustBalance());
+        //     System.out.println(accountTransactionMap.get(account).toString());
+        // }
+
+        loginOptions();
     }
 
 }
