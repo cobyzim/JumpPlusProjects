@@ -138,6 +138,7 @@ public class DollarsBankController {
                         makeDeposit();
                         break;
                     case 2:
+                        makeWithdrawal();
                         // Make Withdrawal
                         break;
                     case 3:
@@ -175,7 +176,7 @@ public class DollarsBankController {
         return userChoice;
     }
 
-    public static void makeDeposit() { // TODO: Validation (Make sure deposit is positive value)
+    private static void makeDeposit() { // TODO: Validation (Make sure deposit is positive value)
         System.out.println("Enter deposit amount: ");
         float deposit = scanner.nextFloat();
 
@@ -187,6 +188,24 @@ public class DollarsBankController {
                 account.setCustBalance(account.getCustBalance() + deposit);
                 System.out.println("Deposit successful!");
             }
+        }
+
+        // for (Account account : accountTransactionMap.keySet()) {
+        //     System.out.println(account.getCustBalance());
+        //     System.out.println(accountTransactionMap.get(account).toString());
+        // }
+
+        loginOptions();
+    }
+
+    private static void makeWithdrawal() {
+        System.out.println("Enter withdrawal amount: ");
+        float withdrawal = scanner.nextFloat() * -1;
+
+        for (Account account : accountTransactionMap.keySet()) {
+            accountTransactionMap.get(account).add(withdrawal);
+            account.setCustBalance(account.getCustBalance() + withdrawal);
+            System.out.println("Withdrawal successful!");
         }
 
         // for (Account account : accountTransactionMap.keySet()) {
