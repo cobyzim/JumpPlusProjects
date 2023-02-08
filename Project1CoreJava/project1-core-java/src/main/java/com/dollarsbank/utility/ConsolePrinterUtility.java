@@ -13,6 +13,7 @@ public class ConsolePrinterUtility {
     }
 
     public static void createAccountPrinter() {
+        System.out.println();
         System.out.println("+-------------------------------+");
         System.out.println("| Enter Details For New Account |");
         System.out.println("+-------------------------------+");

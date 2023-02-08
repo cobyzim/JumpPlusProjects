@@ -67,24 +67,43 @@ public class DollarsBankController {
     public static Account createAccount() { // TODO: Need validation here
         scanner.nextLine(); // Clear buffer
         ConsolePrinterUtility.createAccountPrinter();
-        System.out.println("Customer Name: ");
-        String custName = scanner.nextLine();
 
-        System.out.println("Customer Address: ");
-        String custAddress = scanner.nextLine();
+        boolean validName = false;
+        String custName = "";
+        do {
+            System.out.println("\nCustomer Name: ");
+            custName = scanner.nextLine();
+            validName = validateName(custName);
+            if (!validName) {
+                System.out.println("\nPlease enter a valid name (i.e. 'Jim Bob')");
+            }
+        } while (!validName);
+        
 
-        System.out.println("Customer Contact Number: ");
+        boolean validAddress = false;
+        String custAddress = "";
+        do {
+            System.out.println("\nCustomer Address: ");
+            custAddress = scanner.nextLine();
+            validAddress = validateAddress(custAddress);
+            if (!validAddress) {
+                System.out.println("\nPlease enter a valid address (i.e. '123 Street')\n");
+            }
+        } while (!validAddress);
+        
+
+        System.out.println("\nCustomer Contact Number: ");
         int custPhoneNumber = scanner.nextInt();
         scanner.nextLine(); // Clear buffer
 
-        System.out.println("User Id: ");
+        System.out.println("\nUser Id: ");
         int custId = scanner.nextInt();
         scanner.nextLine();
 
-        System.out.println("Password: 8 Characters with Lower, Upper & Special");
+        System.out.println("\nPassword: 8 Characters with Lower, Upper & Special");
         String password = scanner.nextLine();
 
-        System.out.println("Initial Deposit Amount: ");
+        System.out.println("\nInitial Deposit Amount: ");
         float initialDeposit = scanner.nextFloat();
         scanner.nextLine(); // TODO: Probaly can get rid of this
 
@@ -296,4 +315,11 @@ public class DollarsBankController {
         loginOptions();
     }
 
+    private static boolean validateAddress(String address) {
+        return address.matches("\\d+\\s+([a-zA-Z]+|[a-zA-Z]+\\s[a-zA-Z]+)");
+    }
+
+    private static boolean validateName(String name) {
+        return name.matches("^[A-Z]\\w+\\s[A-Z]\\w+");
+    }
 }
