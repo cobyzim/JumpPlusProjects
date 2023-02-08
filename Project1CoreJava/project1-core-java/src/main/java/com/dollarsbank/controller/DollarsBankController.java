@@ -137,7 +137,6 @@ public class DollarsBankController {
                 if (isTaken) {
                     System.out.println("\nPlease choose another user id, " + custId + " is taken already!");
                 }
-
             }
             catch(InputMismatchException e) {
                 System.out.println("\nPlease enter a valid user id greater than 0 (i.e. 15)");
@@ -146,20 +145,41 @@ public class DollarsBankController {
 
         } while(!validIdFormat || isTaken);
 
-        
-        
+        // Get and Validate Customer Password
+        boolean validPassword = false;
+        String password = "";
 
+        do {
+            System.out.println("\nPassword: 8 Characters with Lower, Upper, Number & Special");
+            password = scanner.nextLine();
+            validPassword = validatePassword(password);
 
+            if (!validPassword) {
+                System.out.println("\nPlease enter a password that has 8 characters with lower, upper, number, and special");
+            }
+        } while (!validPassword);
 
+        // Get and Validate Initial Deposit
+        boolean validDepositInput = false;
+        float initialDeposit = 0;
 
+        do {
+            System.out.println("\nInitial Deposit Amount: ");
+            try {
+                initialDeposit = scanner.nextFloat();
+                validDepositInput = validateInitialDeposit(initialDeposit);
+                if (!validDepositInput) {
+                    System.out.println("\nPlease enter a valid positive deposit amount");
+                }
+            }
+            catch(InputMismatchException e) {
+                System.out.println("\nPlease enter a valid positive deposit amount");
+            }
+            scanner.nextLine();
 
-        System.out.println("\nPassword: 8 Characters with Lower, Upper & Special");
-        String password = scanner.nextLine();
+        } while (!validDepositInput);
 
-        System.out.println("\nInitial Deposit Amount: ");
-        float initialDeposit = scanner.nextFloat();
-        scanner.nextLine(); // TODO: Probaly can get rid of this
-
+        // Create a new account with all of the validated user input
         Account account = new Account(custName, custAddress, custPhoneNumber, custId, password, initialDeposit,
                 initialDeposit);
 
@@ -384,5 +404,14 @@ public class DollarsBankController {
     private static boolean validateUserId(int number) {
         String num = Integer.toString(number);
         return num.matches("[1-9]+");
+    }
+
+    private static boolean validatePassword(String password) {
+        return password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8}$");
+    }
+
+    private static boolean validateInitialDeposit(float number) {
+        String num = Float.toString(number);
+        return num.matches("^(?=.+)(?:[1-9]\\d*|0)?(?:\\.\\d+)?$");
     }
 }
