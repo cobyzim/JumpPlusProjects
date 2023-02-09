@@ -197,7 +197,7 @@ public class DollarsBankController {
                 loginId = scanner.nextInt();
                 scanner.nextLine();
             } catch (InputMismatchException e) {
-                System.out.println("\nPlease enter a valid user id!");
+                System.out.println("\nPlease enter a valid user id!\n");
                 login();
             }
 
@@ -219,7 +219,7 @@ public class DollarsBankController {
                 loginOptions();
 
             } else {
-                System.out.println("Invalid Credentials. Try Again!");
+                System.out.println("\nInvalid Credentials. Try Again!");
             }
         } while (!accountFound);
     }
@@ -279,25 +279,35 @@ public class DollarsBankController {
         return userChoice;
     }
 
-    private static void makeDeposit() { // TODO: Validation (Make sure deposit is positive value)
+    private static void makeDeposit() {
         boolean isValidDeposit = false;
+        float deposit = 0;
 
         do {
             System.out.println("Enter deposit amount: ");
-            float deposit = scanner.nextFloat();
-            isValidDeposit = validateInitialDeposit(deposit);
-
-            for (Account account : accountTransactionMap.keySet()) {
-                int userId = account.getCustUserId();
-
-                if (currentAccountId == userId) {
-                    accountTransactionMap.get(account).add(deposit);
-                    account.setCustBalance(account.getCustBalance() + deposit);
-                    System.out.println("\nDeposit successful!\n");
+            try {
+                deposit = scanner.nextFloat();
+                isValidDeposit = validateInitialDeposit(deposit);
+                if (!isValidDeposit) {
+                    System.out.println("\nPlease enter a valid deposit amount\n");
                 }
+            }
+            catch (InputMismatchException e) {
+                System.out.println("\nPlease enter a valid deposit amount\n");
+                scanner.nextLine();
+                makeDeposit();
             }
         } while (!isValidDeposit);
 
+        for (Account account : accountTransactionMap.keySet()) {
+            int userId = account.getCustUserId();
+
+            if (currentAccountId == userId) {
+                accountTransactionMap.get(account).add(deposit);
+                account.setCustBalance(account.getCustBalance() + deposit);
+                System.out.println("\nDeposit successful!\n");
+            }
+        }
         // for (Account account : accountTransactionMap.keySet()) {
         // System.out.println(account.getCustBalance());
         // System.out.println(accountTransactionMap.get(account).toString());
