@@ -11,6 +11,7 @@ import java.util.Map;
 import com.dollarsbank.utility.ConsolePrinterUtility;
 import com.dollarsbank.model.Account;
 import com.dollarsbank.model.SavingsAccount;
+import com.dollarsbank.utility.DataGeneratorStubUtil;
 
 public class DollarsBankController {
     static Scanner scanner = new Scanner(System.in);
@@ -22,8 +23,16 @@ public class DollarsBankController {
     static Map<Account, List<Float>> accountTransactionMap = new HashMap<>();
     static List<Float> transactionList = new ArrayList<>();
 
-    public static void welcome() {
+    
 
+
+    public static void welcome() {
+        // Arrange hard coded data for testing
+        Account hardCodedAccount = DataGeneratorStubUtil.getAccount1();
+        transactionList.add(hardCodedAccount.getCustInitialDepositAmount());
+        accountTransactionMap.put(hardCodedAccount, transactionList);
+
+        // Start at the welcome page
         do {
             ConsolePrinterUtility.welcomePrinter();
 
@@ -291,8 +300,7 @@ public class DollarsBankController {
                 if (!isValidDeposit) {
                     System.out.println("\nPlease enter a valid deposit amount\n");
                 }
-            }
-            catch (InputMismatchException e) {
+            } catch (InputMismatchException e) {
                 System.out.println("\nPlease enter a valid deposit amount\n");
                 scanner.nextLine();
                 makeDeposit();
@@ -308,17 +316,29 @@ public class DollarsBankController {
                 System.out.println("\nDeposit successful!\n");
             }
         }
-        // for (Account account : accountTransactionMap.keySet()) {
-        // System.out.println(account.getCustBalance());
-        // System.out.println(accountTransactionMap.get(account).toString());
-        // }
 
         loginOptions();
     }
 
-    private static void makeWithdrawal() { // TODO: Validation
-        System.out.println("Enter withdrawal amount: ");
-        float withdrawal = scanner.nextFloat() * -1;
+    private static void makeWithdrawal() {
+        float withdrawal = 0;
+        boolean isValidWithdrawal = false;
+
+        do {
+            System.out.println("Enter withdrawal amount: ");
+
+            try {
+                withdrawal = scanner.nextFloat() * -1;
+                isValidWithdrawal = validateInitialDeposit(withdrawal * -1);
+                if (!isValidWithdrawal) {
+                    System.out.println("\nPlease enter valid withdrawal amount\n");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("\nPlease enter valid withdrawal amount\n");
+                scanner.nextLine();
+                makeWithdrawal();
+            }
+        } while (!isValidWithdrawal);
 
         for (Account account : accountTransactionMap.keySet()) {
             int userId = account.getCustUserId();
@@ -328,11 +348,6 @@ public class DollarsBankController {
                 account.setCustBalance(account.getCustBalance() + withdrawal);
                 System.out.println("\nWithdrawal successful!\n");
             }
-        }
-
-        for (Account account : accountTransactionMap.keySet()) {
-            System.out.println(account.getCustBalance());
-            System.out.println(accountTransactionMap.get(account).toString());
         }
 
         loginOptions();
@@ -357,13 +372,6 @@ public class DollarsBankController {
                 System.out.println("\nTransfer successful!\n");
             }
         }
-
-        // for (Account account : accountTransactionMap.keySet()) {
-        // System.out.println(account.getCustBalance());
-        // System.out.println(accountTransactionMap.get(account).toString());
-        // }
-
-        // System.out.println(savings.toString());
 
         loginOptions();
     }
