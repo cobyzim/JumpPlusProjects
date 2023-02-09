@@ -64,7 +64,7 @@ public class DollarsBankController {
         return userChoice;
     }
 
-    public static Account createAccount() { // TODO: Need validation here
+    public static Account createAccount() {
         scanner.nextLine(); // Clear buffer
         ConsolePrinterUtility.createAccountPrinter();
 
@@ -79,7 +79,7 @@ public class DollarsBankController {
                 System.out.println("\nPlease enter a valid name (i.e. 'Jim Bob')");
             }
         } while (!validName);
-        
+
         // Get and Validate Customer Address
         boolean validAddress = false;
         String custAddress = "";
@@ -91,7 +91,7 @@ public class DollarsBankController {
                 System.out.println("\nPlease enter a valid address (i.e. '123 Street')\n");
             }
         } while (!validAddress);
-        
+
         // Get and Validate Customer Phone Number
         boolean validPhoneNumber = false;
         int custPhoneNumber = 0;
@@ -103,13 +103,12 @@ public class DollarsBankController {
                 if (!validPhoneNumber) {
                     System.out.println("\nPlease enter a valid ten digit phone number (i.e. 1234567890)");
                 }
-            }
-            catch (InputMismatchException e) {
+            } catch (InputMismatchException e) {
                 System.out.println("\nPlease enter a valid ten digit phone number (i.e. 1234567890)");
             }
-            
+
             scanner.nextLine(); // Clear buffer
-        } while(!validPhoneNumber);
+        } while (!validPhoneNumber);
 
         // Get and Validate Customer User Id
         boolean validIdFormat = false;
@@ -129,7 +128,7 @@ public class DollarsBankController {
                 isTaken = false;
                 for (Account account : accountTransactionMap.keySet()) {
                     int accountId = account.getCustUserId();
-                    
+
                     if (accountId == custId) {
                         isTaken = true; // id is taken
                     }
@@ -137,13 +136,12 @@ public class DollarsBankController {
                 if (isTaken) {
                     System.out.println("\nPlease choose another user id, " + custId + " is taken already!");
                 }
-            }
-            catch(InputMismatchException e) {
+            } catch (InputMismatchException e) {
                 System.out.println("\nPlease enter a valid user id greater than 0 (i.e. 15)");
             }
             scanner.nextLine();
 
-        } while(!validIdFormat || isTaken);
+        } while (!validIdFormat || isTaken);
 
         // Get and Validate Customer Password
         boolean validPassword = false;
@@ -155,7 +153,8 @@ public class DollarsBankController {
             validPassword = validatePassword(password);
 
             if (!validPassword) {
-                System.out.println("\nPlease enter a password that has 8 characters with lower, upper, number, and special");
+                System.out.println(
+                        "\nPlease enter a password that has 8 characters with lower, upper, number, and special");
             }
         } while (!validPassword);
 
@@ -171,8 +170,7 @@ public class DollarsBankController {
                 if (!validDepositInput) {
                     System.out.println("\nPlease enter a valid positive deposit amount");
                 }
-            }
-            catch(InputMismatchException e) {
+            } catch (InputMismatchException e) {
                 System.out.println("\nPlease enter a valid positive deposit amount");
             }
             scanner.nextLine();
@@ -186,16 +184,22 @@ public class DollarsBankController {
         return account;
     }
 
-    public static void login() { // TODO: test this
+    public static void login() {
         scanner.nextLine();
         boolean accountFound = false;
+        int loginId = 0;
 
         do {
             ConsolePrinterUtility.loginPrinter();
 
             System.out.println("User Id: ");
-            int loginId = scanner.nextInt(); // TODO: need validation here
-            scanner.nextLine();
+            try {
+                loginId = scanner.nextInt();
+                scanner.nextLine();
+            } catch (InputMismatchException e) {
+                System.out.println("\nPlease enter a valid user id!");
+                login();
+            }
 
             System.out.println("Password: ");
             String loginPassword = scanner.nextLine();
@@ -276,18 +280,23 @@ public class DollarsBankController {
     }
 
     private static void makeDeposit() { // TODO: Validation (Make sure deposit is positive value)
-        System.out.println("Enter deposit amount: ");
-        float deposit = scanner.nextFloat();
+        boolean isValidDeposit = false;
 
-        for (Account account : accountTransactionMap.keySet()) {
-            int userId = account.getCustUserId();
+        do {
+            System.out.println("Enter deposit amount: ");
+            float deposit = scanner.nextFloat();
+            isValidDeposit = validateInitialDeposit(deposit);
 
-            if (currentAccountId == userId) {
-                accountTransactionMap.get(account).add(deposit);
-                account.setCustBalance(account.getCustBalance() + deposit);
-                System.out.println("\nDeposit successful!\n");
+            for (Account account : accountTransactionMap.keySet()) {
+                int userId = account.getCustUserId();
+
+                if (currentAccountId == userId) {
+                    accountTransactionMap.get(account).add(deposit);
+                    account.setCustBalance(account.getCustBalance() + deposit);
+                    System.out.println("\nDeposit successful!\n");
+                }
             }
-        }
+        } while (!isValidDeposit);
 
         // for (Account account : accountTransactionMap.keySet()) {
         // System.out.println(account.getCustBalance());
@@ -312,14 +321,15 @@ public class DollarsBankController {
         }
 
         for (Account account : accountTransactionMap.keySet()) {
-        System.out.println(account.getCustBalance());
-        System.out.println(accountTransactionMap.get(account).toString());
+            System.out.println(account.getCustBalance());
+            System.out.println(accountTransactionMap.get(account).toString());
         }
 
         loginOptions();
     }
 
-    private static void transferFunds() {  //TODO: Validation (make sure user enters valid amount and doesn't go over their balance)
+    private static void transferFunds() { // TODO: Validation (make sure user enters valid amount and doesn't go over
+                                          // their balance)
         System.out.println("Enter how much you would like to transfer to your savings: ");
         float transfer = scanner.nextFloat() * -1;
         SavingsAccount savings = new SavingsAccount();
@@ -331,15 +341,16 @@ public class DollarsBankController {
                 accountTransactionMap.get(account).add(transfer);
                 account.setCustBalance(account.getCustBalance() + transfer);
 
-                savings = new SavingsAccount(userId, account.getCustPassword(), savings.getCustBalance() + (transfer * -1));
+                savings = new SavingsAccount(userId, account.getCustPassword(),
+                        savings.getCustBalance() + (transfer * -1));
 
                 System.out.println("\nTransfer successful!\n");
             }
         }
 
         // for (Account account : accountTransactionMap.keySet()) {
-        //     System.out.println(account.getCustBalance());
-        //     System.out.println(accountTransactionMap.get(account).toString());
+        // System.out.println(account.getCustBalance());
+        // System.out.println(accountTransactionMap.get(account).toString());
         // }
 
         // System.out.println(savings.toString());
@@ -357,11 +368,9 @@ public class DollarsBankController {
                 for (int i = transactionList.size() - 1; i >= 0; i--) {
                     if (transactionList.get(i) > 0.0) {
                         System.out.println("Deposit of $" + transactionList.get(i) + ".");
-                    }
-                    else if (transactionList.get(i) < 0.0) {
+                    } else if (transactionList.get(i) < 0.0) {
                         System.out.println("Withdrawal or Transfer of $" + transactionList.get(i) * -1 + ".");
-                    }
-                    else {
+                    } else {
                         System.out.println("There was an operation, but of $0.00.");
                     }
                 }
