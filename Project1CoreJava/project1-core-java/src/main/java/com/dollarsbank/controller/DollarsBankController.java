@@ -2,7 +2,6 @@ package com.dollarsbank.controller;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,19 +11,17 @@ import com.dollarsbank.utility.ConsolePrinterUtility;
 import com.dollarsbank.model.Account;
 import com.dollarsbank.model.SavingsAccount;
 import com.dollarsbank.utility.DataGeneratorStubUtil;
+import com.dollarsbank.utility.ColorsUtility;
 
 public class DollarsBankController {
     static Scanner scanner = new Scanner(System.in);
     static boolean isValidChoice = false;
     static boolean isValidLoginChoice = false;
 
-    public static int currentAccountId = 0;
+    public static int currentAccountId = 0; // Used to track logged in user
 
     static Map<Account, List<Float>> accountTransactionMap = new HashMap<>();
     static List<Float> transactionList = new ArrayList<>();
-
-    
-
 
     public static void welcome() {
         // Arrange hard coded data for testing
@@ -64,10 +61,12 @@ public class DollarsBankController {
             if (userChoice == 1 || userChoice == 2 || userChoice == 3) {
                 isValidChoice = true;
             } else {
-                System.out.println("Please Enter a Valid Choice (1, 2, or 3): ");
+                System.out.println(ColorsUtility.ANSI_RED + "Please Enter a Valid Choice (1, 2, or 3): "
+                        + ColorsUtility.ANSI_RESET);
             }
         } catch (InputMismatchException e) {
-            System.out.println("Please Enter a Valid Numeric Choice (1, 2, or 3): ");
+            System.out.println(ColorsUtility.ANSI_RED + "Please Enter a Valid Numeric Choice (1, 2, or 3): "
+                    + ColorsUtility.ANSI_RESET);
         }
 
         return userChoice;
@@ -85,7 +84,8 @@ public class DollarsBankController {
             custName = scanner.nextLine();
             validName = validateName(custName);
             if (!validName) {
-                System.out.println("\nPlease enter a valid name (i.e. 'Jim Bob')");
+                System.out.println(ColorsUtility.ANSI_RED + "\nPlease enter a valid name (i.e. 'Jim Bob')"
+                        + ColorsUtility.ANSI_RESET);
             }
         } while (!validName);
 
@@ -97,7 +97,8 @@ public class DollarsBankController {
             custAddress = scanner.nextLine();
             validAddress = validateAddress(custAddress);
             if (!validAddress) {
-                System.out.println("\nPlease enter a valid address (i.e. '123 Street')\n");
+                System.out.println(ColorsUtility.ANSI_RED + "\nPlease enter a valid address (i.e. '123 Street')\n"
+                        + ColorsUtility.ANSI_RESET);
             }
         } while (!validAddress);
 
@@ -110,10 +111,13 @@ public class DollarsBankController {
                 custPhoneNumber = scanner.nextInt();
                 validPhoneNumber = validatePhoneNumber(custPhoneNumber);
                 if (!validPhoneNumber) {
-                    System.out.println("\nPlease enter a valid ten digit phone number (i.e. 1234567890)");
+                    System.out.println(
+                            ColorsUtility.ANSI_RED + "\nPlease enter a valid ten digit phone number (i.e. 1234567890)"
+                                    + ColorsUtility.ANSI_RESET);
                 }
             } catch (InputMismatchException e) {
-                System.out.println("\nPlease enter a valid ten digit phone number (i.e. 1234567890)");
+                System.out.println(ColorsUtility.ANSI_RED
+                        + "\nPlease enter a valid ten digit phone number (i.e. 1234567890)" + ColorsUtility.ANSI_RESET);
             }
 
             scanner.nextLine(); // Clear buffer
@@ -130,7 +134,8 @@ public class DollarsBankController {
                 custId = scanner.nextInt();
                 validIdFormat = validateUserId(custId);
                 if (!validIdFormat) {
-                    System.out.println("\nPlease enter a valid user id greater than 0 (i.e. 15)");
+                    System.out.println(ColorsUtility.ANSI_RED
+                            + "\nPlease enter a valid user id greater than 0 (i.e. 15)" + ColorsUtility.ANSI_RESET);
                 }
 
                 // Check if userId is already taken
@@ -143,10 +148,12 @@ public class DollarsBankController {
                     }
                 }
                 if (isTaken) {
-                    System.out.println("\nPlease choose another user id, " + custId + " is taken already!");
+                    System.out.println(ColorsUtility.ANSI_RED + "\nPlease choose another user id, " + custId
+                            + " is taken already!" + ColorsUtility.ANSI_RESET);
                 }
             } catch (InputMismatchException e) {
-                System.out.println("\nPlease enter a valid user id greater than 0 (i.e. 15)");
+                System.out.println(ColorsUtility.ANSI_RED + "\nPlease enter a valid user id greater than 0 (i.e. 15)"
+                        + ColorsUtility.ANSI_RESET);
             }
             scanner.nextLine();
 
@@ -162,8 +169,9 @@ public class DollarsBankController {
             validPassword = validatePassword(password);
 
             if (!validPassword) {
-                System.out.println(
-                        "\nPlease enter a password that has 8 characters with lower, upper, number, and special");
+                System.out.println(ColorsUtility.ANSI_RED +
+                        "\nPlease enter a password that has 8 characters with lower, upper, number, and special"
+                        + ColorsUtility.ANSI_RESET);
             }
         } while (!validPassword);
 
@@ -177,10 +185,12 @@ public class DollarsBankController {
                 initialDeposit = scanner.nextFloat();
                 validDepositInput = validateInitialDeposit(initialDeposit);
                 if (!validDepositInput) {
-                    System.out.println("\nPlease enter a valid positive deposit amount");
+                    System.out.println(ColorsUtility.ANSI_RED + "\nPlease enter a valid positive deposit amount"
+                            + ColorsUtility.ANSI_RESET);
                 }
             } catch (InputMismatchException e) {
-                System.out.println("\nPlease enter a valid positive deposit amount");
+                System.out.println(ColorsUtility.ANSI_RED + "\nPlease enter a valid positive deposit amount"
+                        + ColorsUtility.ANSI_RESET);
             }
             scanner.nextLine();
 
@@ -206,7 +216,8 @@ public class DollarsBankController {
                 loginId = scanner.nextInt();
                 scanner.nextLine();
             } catch (InputMismatchException e) {
-                System.out.println("\nPlease enter a valid user id!\n");
+                System.out.println(
+                        ColorsUtility.ANSI_RED + "\nPlease enter a valid user id!\n" + ColorsUtility.ANSI_RESET);
                 login();
             }
 
@@ -228,7 +239,8 @@ public class DollarsBankController {
                 loginOptions();
 
             } else {
-                System.out.println("\nInvalid Credentials. Try Again!");
+                System.out.println(
+                        ColorsUtility.ANSI_RED + "\nInvalid Credentials. Try Again!" + ColorsUtility.ANSI_RESET);
             }
         } while (!accountFound);
     }
@@ -264,7 +276,8 @@ public class DollarsBankController {
                     case 6:
                         welcome();
                     default:
-                        System.out.println("Invalid Choice!");
+                        System.out.println();
+                        loginOptions();
                 }
 
             } while (!isValidLoginChoice);
@@ -273,17 +286,21 @@ public class DollarsBankController {
 
     private static int getUserLoginChoice() {
         int userChoice = 0;
-        try {
-            userChoice = scanner.nextInt();
-            if (userChoice == 1 || userChoice == 2 || userChoice == 3 || userChoice == 4 || userChoice == 5
-                    || userChoice == 6) {
-                isValidChoice = true;
-            } else {
-                System.out.println("Please Enter a Valid Choice (1, 2, 3, 4, 5, or 6): ");
+        do {
+            try {
+                userChoice = scanner.nextInt();
+                if (userChoice == 1 || userChoice == 2 || userChoice == 3 || userChoice == 4 || userChoice == 5
+                        || userChoice == 6) {
+                    isValidChoice = true;
+                } else {
+                    System.out.println(ColorsUtility.ANSI_RED + "Please Enter a Valid Choice (1, 2, 3, 4, 5, or 6): "
+                            + ColorsUtility.ANSI_RESET);
+                }
+            } catch (InputMismatchException e) {
+                System.out.println(ColorsUtility.ANSI_RED
+                        + "Please Enter a Valid Numeric Choice (1, 2, 3, 4, 5, or 6): " + ColorsUtility.ANSI_RESET);
             }
-        } catch (InputMismatchException e) {
-            System.out.println("Please Enter a Valid Numeric Choice (1, 2, 3, 4, 5, or 6): ");
-        }
+        } while (!isValidChoice);
 
         return userChoice;
     }
@@ -298,10 +315,12 @@ public class DollarsBankController {
                 deposit = scanner.nextFloat();
                 isValidDeposit = validateInitialDeposit(deposit);
                 if (!isValidDeposit) {
-                    System.out.println("\nPlease enter a valid deposit amount\n");
+                    System.out.println(ColorsUtility.ANSI_RED + "\nPlease enter a valid deposit amount\n"
+                            + ColorsUtility.ANSI_RESET);
                 }
             } catch (InputMismatchException e) {
-                System.out.println("\nPlease enter a valid deposit amount\n");
+                System.out.println(
+                        ColorsUtility.ANSI_RED + "\nPlease enter a valid deposit amount\n" + ColorsUtility.ANSI_RESET);
                 scanner.nextLine();
                 makeDeposit();
             }
@@ -331,10 +350,12 @@ public class DollarsBankController {
                 withdrawal = scanner.nextFloat() * -1;
                 isValidWithdrawal = validateInitialDeposit(withdrawal * -1);
                 if (!isValidWithdrawal) {
-                    System.out.println("\nPlease enter valid withdrawal amount\n");
+                    System.out.println(ColorsUtility.ANSI_RED + "\nPlease enter valid withdrawal amount\n"
+                            + ColorsUtility.ANSI_RESET);
                 }
             } catch (InputMismatchException e) {
-                System.out.println("\nPlease enter valid withdrawal amount\n");
+                System.out.println(
+                        ColorsUtility.ANSI_RED + "\nPlease enter valid withdrawal amount\n" + ColorsUtility.ANSI_RESET);
                 scanner.nextLine();
                 makeWithdrawal();
             }
@@ -382,6 +403,7 @@ public class DollarsBankController {
 
             if (currentAccountId == userId) {
                 List<Float> transactionList = accountTransactionMap.get(account);
+                System.out.println();
 
                 for (int i = transactionList.size() - 1; i >= 0; i--) {
                     if (transactionList.get(i) > 0.0) {
@@ -393,7 +415,7 @@ public class DollarsBankController {
                     }
                 }
 
-                System.out.println("Balance - " + account.getCustBalance());
+                System.out.println("Customer Balance - " + account.getCustBalance() + "\n");
             }
         }
 
@@ -405,10 +427,10 @@ public class DollarsBankController {
             int userId = account.getCustUserId();
 
             if (currentAccountId == userId) {
-                System.out.println("Customer Name: " + account.getCustName());
+                System.out.println("\nCustomer Name: " + account.getCustName());
                 System.out.println("Customer Address: " + account.getCustAddress());
                 System.out.println("Customer Phone: " + account.getCustPhoneNumber());
-                System.out.println("Customer Balance: " + account.getCustBalance());
+                System.out.println("Customer Balance: " + account.getCustBalance() + "\n");
             }
         }
 
