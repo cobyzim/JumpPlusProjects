@@ -6,6 +6,12 @@ module.exports = class ApplicationView {
         //console.log("Enter a valid choice (1 -> Transaction, 2 -> Create New Account)");
     }
 
+    static createAccountPrinter() {
+        console.log("\n------------------------------");
+        console.log("Enter Details For New Account");
+        console.log("------------------------------");
+    }
+
 
     
 }

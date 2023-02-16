@@ -1,7 +1,5 @@
-const custNameRegex = new RegExp('^[A-Z]\\w+\\s[A-Z]\\w+');
-
 module.exports = class CustomerAccount {
-    constructor(custName, custAddress, custPhone, custPin, custPassword, custInitialDeposit, custBalance, transactions = [], transactionTypes = []) {
+    constructor(custName, custAddress, custPhone, custPassword, custInitialDeposit, custBalance, transactions = [], transactionTypes = []) {
         this.custName = custName;
         this.custAddress = custAddress;
         this.custPhone = custPhone;
@@ -22,6 +20,56 @@ module.exports = class CustomerAccount {
         // }
         this.custName = custName;
     }
+
+    get getCustAddress() {
+        return this.custAddress;
+    }
+    set setCustAddress(custAddress) {
+        this.custAddress = custAddress;
+    }
+
+    get getCustPhone() {
+        return this.custPhone;
+    }
+    set setCustPhone(custPhone) {
+        this.custPhone = custPhone;
+    }
+
+    get getCustPassword() {
+        return this.custPassword;
+    }
+    set setCustPassword(custPassword) {
+        this.custPassword = custPassword;
+    }
+
+    get getCustInitialDeposit() {
+        return this.custInitialDeposit;
+    }
+    set setCustInitialDeposit(custInitialDeposit) {
+        this.custInitialDeposit = custInitialDeposit;
+    }
+
+    get getCustBalance() {
+        return this.custBalance;
+    }
+    set setCustBalance(custBalance) {
+        this.custBalance = custBalance;
+    }
+
+    get getTransactions() {
+        return this.transactions;
+    }
+    set setTransactions(transactions) {
+        this.transactions = transactions;
+    }
+
+    get getTransactionTypes() {
+        return this.transactionTypes;
+    }
+    set setTransactionTypes(transactionTypes) {
+        this.transactionTypes = transactionTypes;
+    }
+
 }
 
 // const element = <h1>Hello World</h1>;
@@ -29,4 +77,4 @@ module.exports = class CustomerAccount {
 
 
 
-// const lib = require("./customer_account.js") how to import
+// const lib = require("./customer_account.js") -> how to import class

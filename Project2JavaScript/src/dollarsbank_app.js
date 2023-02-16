@@ -11,12 +11,29 @@ let isValidLoginChoice = false;
 
 let currentAccountId = 0; // Track logged in user
 
+// start at welcome page
 do {
   ApplicationView.welcome();
 
   let userMenuChoice = 0;
   do {
     userMenuChoice = getUserMenuChoice();
+    if (userMenuChoice === 1) {
+        // Go through New Account Creation
+        ApplicationView.createAccountPrinter();
+
+        let validName = false;
+        let custName = "";
+        do {
+            custName = prompt("Customer Name: ");
+            validName = validateName(custName);
+            if (!validName) {
+                console.log("\nPlease enter a valid name (i.e. 'John Doe')");
+            }
+        } while(!validName);
+    }
+
+
   }
   while(!isValidMenuChoice);
 }
@@ -25,7 +42,7 @@ while(true);
 function getUserMenuChoice() {
   let userMenuChoice = 0;
   try {
-      userMenuChoice = parseInt(prompt("Enter a valid choice (1 -> Login, 2 -> Create New Account): "));
+      userMenuChoice = parseInt(prompt("Enter a valid choice (1 -> Create New Account, 2 -> Login): "));
       
       if (userMenuChoice == 1 || userMenuChoice == 2) {
         isValidMenuChoice = true;
@@ -41,6 +58,14 @@ function getUserMenuChoice() {
   catch(err) {
     console.log(err);
   }
+  return userMenuChoice;
+}
 
-  
-} 
+// Validate Cust Name
+function validateName(name) {
+    let custNameRegex = /^[A-Z]\w+\s[A-Z]\w+/;
+    let result = custNameRegex.test(name);
+
+    return result;
+}
+
