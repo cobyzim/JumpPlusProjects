@@ -240,6 +240,134 @@ function loginOptions() {
     } while (true);
 }
 
+// Handle Customer Login Option
+function getUserLoginChoice() {
+    let userChoice = 0;
+        try {
+            userChoice = parseInt(prompt("Enter Choice (1, 2, 3, 4, 5, or 6): "));
+            if (userChoice == 1 || userChoice == 2 || userChoice == 3 || userChoice == 4 || userChoice == 5 || userChoice == 6) {
+                isValidLoginChoice = true;
+            }
+            else if (isNaN(userChoice)) {
+                throw "\nPlease enter a Valid Numeric Choice (1, 2, 3, 4, 5, or 6)";
+            }
+            else {
+                console.log("\nPlease enter a Valid Numeric Choice (1, 2, 3, 4, 5, or 6)");
+            }
+        }
+        catch(err) {
+            console.log(err);
+        }
+
+    return userChoice;
+}
+
+// Handle deposit functionality
+function makeDeposit() {
+    let isValidDeposit = false;
+    let deposit = 0.0;
+
+    do {
+        try {
+            deposit = parseFloat(prompt("Enter Deposit Amount: "));
+            if (isNaN(deposit)) {
+                throw "\nPlease enter a valid deposit amount";
+            }
+            isValidDeposit = validateDeposit(deposit);
+            if (!isValidDeposit) {
+                console.log("\nPlease enter a valid deposit amount");
+            }
+        }
+        catch(err) {
+            console.log(err);
+        }
+    } while(!isValidDeposit);
+
+    for (let i = 0; i < accounts.length; i++) {
+        let userId = accounts[i].userId;
+
+        if (currentAccountId == userId) {
+            accounts[i].transactions.push(deposit);
+            accounts[i].custBalance = accounts[i].custBalance + deposit;
+            accounts[i].transactionTypes.push("Deposit of " + deposit);
+        }
+    }
+
+    console.log(accounts);
+
+    loginOptions();
+}
+
+// Handle withdrawal functionality
+function makeWithdrawal() {
+    let withdrawal = 0.0;
+    let isValidWithdrawal = false;
+
+    do {
+        try {
+            withdrawal = parseFloat(prompt("Enter withdrawal amound: "));
+            withdrawal = withdrawal * -1;
+            if (isNaN(withdrawal)) {
+                throw "\nPlease enter valid withdrawal amount";
+            }
+            isValidWithdrawal = validateDeposit(withdrawal * -1);
+            if (!isValidWithdrawal) {
+                console.log("\nPlease enter valid withdrawal amount");
+            }
+        }
+        catch(err) {
+            console.log(err);
+        }
+    } while (!isValidWithdrawal);
+
+    for (let i = 0; i < accounts.length; i++) {
+        let userId = accounts[i].userId;
+
+        if (currentAccountId == userId) {
+            accounts[i].transactions.push(withdrawal);
+            accounts[i].custBalance = accounts[i].custBalance + withdrawal;
+            accounts[i].transactionTypes.push("Withdrawal of " + withdrawal * -1);
+        }
+    }
+    
+    console.log(accounts);
+
+    loginOptions();
+
+}
+
+function viewRecentTransactions() {
+    for (let i = 0; i < accounts.length; i++) {
+        let userId = accounts[i].userId;
+
+        if (currentAccountId == userId) {
+            let counter = 5;
+            for (let j = accounts[i].transactionTypes.length - 1; j >= 0; j--) {
+                console.log(accounts[i].transactionTypes[j]);
+                counter--;
+                if (counter == 0) {
+                    break;
+                }
+            }
+        }
+    }
+}
+
+function displayCustInfo() {
+    for (let i = 0; i < accounts.length; i++) {
+        let userId = accounts[i].userId;
+
+        if (currentAccountId == userId) {
+            console.log("Name: " + accounts[i].custName);
+            console.log("Address: " + accounts[i].custAddress);
+            console.log("Phone Number: " + accounts[i].custPhone);
+            console.log("Balance: " + accounts[i].custBalance);
+        }
+    }
+
+    loginOptions();
+}
+
 
 // Determine if customer wants to login or create a new account
 function getUserMenuChoice() {

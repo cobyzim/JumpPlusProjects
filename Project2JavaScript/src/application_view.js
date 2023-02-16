@@ -28,7 +28,6 @@ module.exports = class ApplicationView {
         console.log("4. View 5 Recent Transactions");
         console.log("5. Display Customer Information");
         console.log("6. Sign Out\n");
-        console.log("Enter Choice (1, 2, 3, 4, 5, or 6): ");
     }
 
 
