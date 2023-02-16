@@ -35,6 +35,7 @@ do {
             }
         } while(!validName);
 
+
         // Get Valid Customer Address
         let validAddress = false;
         let custAddress = "";
@@ -45,6 +46,7 @@ do {
                 console.log("\nPlease enter a valid address (i.e. '123 Street')");
             }
         } while(!validAddress);
+
 
         // Get Valid Customer Phone Number
         let validPhoneNumber = false;
@@ -64,6 +66,7 @@ do {
                 console.log(err);
             }
         } while(!validPhoneNumber);
+
 
         // Get Valid Customer User Id
         let validIdFormat = false;
@@ -137,12 +140,106 @@ do {
         // Add account with all validated user input to array
         let newAccount = new CustomerAccount(custName, custAddress, custPhone, custId, password, initialDeposit, initialDeposit, [initialDeposit], ["Initial Deposit"]);
         accounts.push(newAccount);
-
     }
+
+    if (userMenuChoice ===  2) {
+        login();
+    }
+
+
+
+
+
+
+
+
+
   }
   while(!isValidMenuChoice);
 }
 while(true);
+
+
+// Login Method
+function login() {
+    let accountFound = false;
+    let loginId = 0;
+
+    do {
+        ApplicationView.loginPrinter();
+
+        try {
+            loginId = parseInt(prompt("User Id: "));
+            if (isNaN(loginId)) {
+                throw "\nPlease enter a valid user id!";
+            }
+        }
+        catch(err) {
+            console.log(err);
+            login();
+        }
+
+        let loginPassword = prompt("Password: ");
+
+        for (let i = 0; i < accounts.length; i++) {
+            let userId = accounts[i].userId;
+            let userPwd = accounts[i].custPassword;
+
+            if (userId == loginId && userPwd.localeCompare(loginPassword) == 0) {
+                accountFound = true;
+                currentAccountId = loginId;
+                break;
+            }
+        }
+
+        if (accountFound) {
+            loginOptions();
+        }
+        else {
+            console.log("\nInvalid Credentials. Try Again!");
+        }
+        
+    } while(!accountFound);
+}
+
+// Handle Login Menu
+function loginOptions() {
+    do {
+        ApplicationView.loginWelcomePrinter();
+
+        let userLoginChoice = 0;
+        do {
+            userLoginChoice = getUserLoginChoice();
+            switch (userLoginChoice) {
+                case 1:
+                    // Make Deposit
+                    makeDeposit();
+                    break;
+                case 2:
+                    // Make Withdrawal
+                    makeWithdrawal();
+                    break;
+                case 3:
+                    // Transfer Funds
+                    transferFunds();
+                    break;
+                case 4:
+                    // View 5 Recent Transactions
+                    viewRecentTransactions();
+                    break;
+                case 5:
+                    // Display Customer Information
+                    displayCustInfo();
+                    break;
+                case 6:
+                    welcome();
+                default:
+                    loginOptions();
+            }
+        } while(!isValidLoginChoice)
+    } while (true);
+}
+
 
 // Determine if customer wants to login or create a new account
 function getUserMenuChoice() {
