@@ -100,10 +100,45 @@ do {
         } while(!validIdFormat || isTaken);
 
 
+        // Get Valid Customer Password
+        let validPassword = false;
+        let password = "";
+
+        do {
+            password = prompt("Password - 8 Characters with Lower, Upper, Number & Special: ");
+            validPassword = validatePassword(password);
+            if (!validPassword) {
+                console.log("\nPlease enter a password that has 8 characters with lower, upper, number, and special");
+            }
+        } while(!validPassword);
+
+
+        // Get Valid Initial Deposit
+        let validDepositInput = false;
+        let initialDeposit = 0.0;
+
+        do {
+            try {
+                initialDeposit = parseFloat(prompt("Initial Deposit Amount: "));
+                if (isNaN(initialDeposit)) {
+                    throw "\nPlease enter a valid positive deposit amount"
+                }
+                validDepositInput = validateDeposit(initialDeposit);
+                if (!validDepositInput) {
+                    console.log("\nPlease enter a valid positive deposit amount");
+                }
+            }
+            catch(err) {
+                console.log(err);
+            }
+        } while(!validDepositInput);
+
+        
+        // Add account with all validated user input to array
+        let newAccount = new CustomerAccount(custName, custAddress, custPhone, custId, password, initialDeposit, initialDeposit, [initialDeposit], ["Initial Deposit"]);
+        accounts.push(newAccount);
 
     }
-
-
   }
   while(!isValidMenuChoice);
 }
@@ -165,3 +200,24 @@ function validateUserId(number) {
 
     return result;
 }
+
+// Validate Cust Password
+function validatePassword(password) {
+    let custPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8}$/;
+    let result = custPasswordRegex.test(password);
+
+    return result;
+}
+
+// Validate Deposit
+function validateDeposit(deposit) {
+    let custDepositRegex = /^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/;
+    let depositString = "" + deposit;
+    let result = custDepositRegex.test(depositString);
+
+    return result;
+}
+
+
+
+
