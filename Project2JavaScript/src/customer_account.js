@@ -1,8 +1,9 @@
 module.exports = class CustomerAccount {
-    constructor(custName, custAddress, custPhone, custPassword, custInitialDeposit, custBalance, transactions = [], transactionTypes = []) {
+    constructor(custName, custAddress, custPhone, userId, custPassword, custInitialDeposit, custBalance, transactions = [], transactionTypes = []) {
         this.custName = custName;
         this.custAddress = custAddress;
         this.custPhone = custPhone;
+        this.userId = userId;
         this.custPassword = custPassword;
         this.custInitialDeposit = custInitialDeposit;
         this.custBalance = custBalance;
@@ -33,6 +34,13 @@ module.exports = class CustomerAccount {
     }
     set setCustPhone(custPhone) {
         this.custPhone = custPhone;
+    }
+
+    get getUserId() {
+        return this.userId;
+    }
+    set setUserId(userId) {
+        this.userId = userId;
     }
 
     get getCustPassword() {
