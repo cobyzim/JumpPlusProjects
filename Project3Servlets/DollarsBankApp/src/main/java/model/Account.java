@@ -11,13 +11,13 @@ public class Account implements java.io.Serializable {
 	private int custPhone;
 	private int custUserId;
 	private String custPassword;
-	private float custInitialDeposit;
-	private float custBalance;
-	private List<Float> transactions;
+	private double custInitialDeposit;
+	private double custBalance;
+	private List<Double> transactions;
 	private List<String> transactionTypes;
 	
 	public Account(String custName, String custAddress, int custPhone, int custUserId, String custPassword,
-			float custInitialDeposit, float custBalance, List<Float> transactions, List<String> transactionTypes) {
+			double custInitialDeposit, double custBalance, List<Double> transactions, List<String> transactionTypes) {
 		super();
 		this.custName = custName;
 		this.custAddress = custAddress;
@@ -70,27 +70,27 @@ public class Account implements java.io.Serializable {
 		this.custPassword = custPassword;
 	}
 
-	public float getCustInitialDeposit() {
+	public double getCustInitialDeposit() {
 		return custInitialDeposit;
 	}
 
-	public void setCustInitialDeposit(float custInitialDeposit) {
+	public void setCustInitialDeposit(double custInitialDeposit) {
 		this.custInitialDeposit = custInitialDeposit;
 	}
 
-	public float getCustBalance() {
+	public double getCustBalance() {
 		return custBalance;
 	}
 
-	public void setCustBalance(float custBalance) {
+	public void setCustBalance(double custBalance) {
 		this.custBalance = custBalance;
 	}
 
-	public List<Float> getTransactions() {
+	public List<Double> getTransactions() {
 		return transactions;
 	}
 
-	public void setTransactions(List<Float> transactions) {
+	public void setTransactions(List<Double> transactions) {
 		this.transactions = transactions;
 	}
 

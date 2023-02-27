@@ -7,17 +7,11 @@
 <title>Home JSP</title>
 </head>
 <body>
-	<% 
-	String custName = request.getParameter("custName");
-	out.print("Welcome " + custName);
+	<div>
+		<h1>Welcome to DollarsBank!</h1>
+	</div>
 	
-	String custAddress = request.getParameter("custAddress");
-	out.print("Address: " + custAddress);
-	
-	String custPhone = request.getParameter("custPhone");
-	out.print("Phone: " + custPhone);
-	%>
-	<p><%=custPhone%></p>
+	<button></button>
 
 
 
