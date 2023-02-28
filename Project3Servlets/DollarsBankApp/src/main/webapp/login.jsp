@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.List" %> 
+<%@ page import="java.util.ArrayList" %>   
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,6 +9,19 @@
 <title>Login</title>
 </head>
 <body>
+	<%
+		List<String> errList = (ArrayList<String>) request.getAttribute("errList");
+		if (errList != null) {
+			for (String error : errList) {
+				%>
+				<script>
+					alert("<%=error%>");
+				</script>
+				<%
+			}
+		}
+	%>
+
 	<div>
 		<h1>Welcome to DollarsBank!</h1>
 	</div>
