@@ -11,7 +11,7 @@
 		<h1>Please Enter Your Information!</h1>
 	</div>
 	
-	<form action="CreateAccount">
+	<form action="createAccount" method="post">
 		<table>
 			<tr>
 				<th scope="row">Name: </th>

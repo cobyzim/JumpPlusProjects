@@ -11,11 +11,11 @@
 		<h1>Welcome to DollarsBank!</h1>
 	</div>
 	
-	<form action="LoginRegister">
+	<form action="login" method="post">
 		<table>
 			<tr>
 				<th scope="row">User Id: </th>
-				<td><input type="text" name="id"></td>
+				<td><input type="number" name="id"></td>
 			</tr>
 			<tr>
 				<th scope="row">Password: </th>

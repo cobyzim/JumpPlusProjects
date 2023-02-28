@@ -7,33 +7,20 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-public class ConnManagerWithProperties {
+public class ConnManager {
 	
 	// set connection to null right away
 	private static Connection connection = null;
 	
+	private static final String URL = "jdbc:mysql://localhost:3306/project3?serverTimezone=EST5EDT";
+	private static final String USERNAME = "root";
+	private static final String PASSWORD = "Root@123";
+	
 	private static void makeConnection() {
-		
-		// Properties will be used to access props file and read its values
-		Properties props = new Properties();
-		
-		// use the FileInputStream to load in the values from the file to props
-		try {
-			props.load(new FileInputStream("resources/config.properties"));
-		}
-		catch(IOException e) {
-			e.printStackTrace();
-		}
-		
-		// save the values to the variables, use the same name as what is written
-		// in the file to get the values
-		String url = props.getProperty("url");
-		String username = props.getProperty("username");
-		String password = props.getProperty("password");
 		
 		// finally, establish connection
 		try {
-			connection = DriverManager.getConnection(url, username, password);
+			connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 			System.out.println("Established connection");
 		}
 		catch(SQLException e) {
