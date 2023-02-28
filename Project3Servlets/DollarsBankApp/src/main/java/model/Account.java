@@ -1,7 +1,5 @@
 package model;
 
-import java.util.List;
-
 public class Account implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -13,11 +11,11 @@ public class Account implements java.io.Serializable {
 	private String custPassword;
 	private double custInitialDeposit;
 	private double custBalance;
-	private List<Double> transactions;
-	private List<String> transactionTypes;
+//	private List<Double> transactions;
+//	private List<String> transactionTypes;
 	
 	public Account(String custName, String custAddress, int custPhone, int custUserId, String custPassword,
-			double custInitialDeposit, double custBalance, List<Double> transactions, List<String> transactionTypes) {
+			double custInitialDeposit, double custBalance) {
 		super();
 		this.custName = custName;
 		this.custAddress = custAddress;
@@ -26,8 +24,10 @@ public class Account implements java.io.Serializable {
 		this.custPassword = custPassword;
 		this.custInitialDeposit = custInitialDeposit;
 		this.custBalance = custBalance;
-		this.transactions = transactions;
-		this.transactionTypes = transactionTypes;
+	}
+	
+	public Account() {
+		
 	}
 
 	public String getCustName() {
@@ -86,20 +86,11 @@ public class Account implements java.io.Serializable {
 		this.custBalance = custBalance;
 	}
 
-	public List<Double> getTransactions() {
-		return transactions;
-	}
-
-	public void setTransactions(List<Double> transactions) {
-		this.transactions = transactions;
-	}
-
-	public List<String> getTransactionTypes() {
-		return transactionTypes;
-	}
-
-	public void setTransactionTypes(List<String> transactionTypes) {
-		this.transactionTypes = transactionTypes;
+	@Override
+	public String toString() {
+		return "Account [custName=" + custName + ", custAddress=" + custAddress + ", custPhone=" + custPhone
+				+ ", custUserId=" + custUserId + ", custPassword=" + custPassword + ", custInitialDeposit="
+				+ custInitialDeposit + ", custBalance=" + custBalance + "]";
 	}
 	
 

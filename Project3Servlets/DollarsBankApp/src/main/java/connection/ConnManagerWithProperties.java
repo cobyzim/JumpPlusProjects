@@ -52,19 +52,18 @@ public class ConnManagerWithProperties {
 		return connection;
 	}
 	
-	public static void main(String[] args) {
-		Connection conn = ConnManagerWithProperties.getConnection();
-		System.out.println("Made Connection");
-		
-		try {
-			conn.close();
-			System.out.println("Closed connection");
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	
+//	public static void main(String[] args) {
+//		Connection conn = ConnManagerWithProperties.getConnection();
+//		System.out.println("Made Connection");
+//		
+//		try {
+//			conn.close();
+//			System.out.println("Closed connection");
+//		}
+//		catch(SQLException e) {
+//			e.printStackTrace();
+//		}
+//	}
 	
 	
 	
