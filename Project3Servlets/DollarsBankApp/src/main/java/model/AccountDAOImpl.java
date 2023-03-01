@@ -77,4 +77,47 @@ public class AccountDAOImpl implements AccountDAO {
 		return null;
 	}
 
+	@Override
+	public boolean doesAccountExist(int userId) {
+		Account account = new Account();
+		
+		try {
+			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM account WHERE custUserId = ?");
+			pstmt.setInt(1, userId);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				String custName = rs.getString("custName");
+				String custAddress = rs.getString("custAddress");
+				int custPhone = rs.getInt("custPhone");
+				int custId = rs.getInt("custUserId");
+				String custPassword = rs.getString("custPassword");
+				double custInitialBalance = rs.getDouble("custInitialDeposit");
+				double custBalance = rs.getDouble("custBalance");
+				
+				account.setCustName(custName);
+				account.setCustAddress(custAddress);
+				account.setCustPhone(custPhone);
+				account.setCustUserId(custId);
+				account.setCustPassword(custPassword);
+				account.setCustInitialDeposit(custInitialBalance);
+				account.setCustBalance(custBalance);
+			}
+			
+			// Account with this id already present
+			if (account != null) {
+				return true;
+			}
+			
+			
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return false;
+	}
+
 }

@@ -4,6 +4,7 @@ public interface AccountDAO {
 	
 	boolean insertAccount(Account account);
 	Account getAccount(int userId, String password);
+	boolean doesAccountExist(int userId);
 	
 
 }

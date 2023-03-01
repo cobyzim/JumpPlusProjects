@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.List" %> 
+<%@ page import="java.util.ArrayList" %>  
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,6 +9,23 @@
 <title>Create Account</title>
 </head>
 <body>
+
+	<%  // TODO: When doing java code, use a string builder to get all error
+	    // messages before showing them in the alert or just concatenate
+	    // the strings into one string (latter probably better)
+	    List<String> errList = (ArrayList<String>) request.getAttribute("errList");
+		if (errList != null) {
+			for (String error : errList) {
+				%>
+				<script>
+					alert("<%=error%>");
+				</script>
+				
+				<%
+			}
+		}
+	%>
+
 	<div>
 		<h1>Please Enter Your Information!</h1>
 	</div>
