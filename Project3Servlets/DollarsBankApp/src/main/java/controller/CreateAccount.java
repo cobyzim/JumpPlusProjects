@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import model.Account;
 import model.AccountDAO;
 import model.AccountDAOImpl;
+import model.Transaction;
+import model.TransactionDAOImpl;
 
 /**
  * Servlet implementation class CreateAccount
@@ -33,6 +35,8 @@ public class CreateAccount extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		AccountDAO accountDAO = new AccountDAOImpl();
+		TransactionDAOImpl transDAO = new TransactionDAOImpl();
+		
 		List<String> errList = new ArrayList<>();
 		
 		try {
@@ -58,7 +62,7 @@ public class CreateAccount extends HttpServlet {
 				double initialDeposit = Double.parseDouble(request.getParameter("initialdeposit"));
 				
 				
-				// TODO: Instantiate new account and add it to db if all is well
+				// Instantiate new account and add it to db if all is well
 				Account account = new Account();
 				account.setCustName(name);
 				account.setCustAddress(address);
@@ -69,6 +73,13 @@ public class CreateAccount extends HttpServlet {
 				account.setCustBalance(initialDeposit);
 				
 				accountDAO.insertAccount(account);
+				
+				// Instantiate new transaction and add it to transaction table
+				Transaction transaction = new Transaction();
+				transaction.setCustUserId(id);
+				transaction.setTransaction("Initial Deposit of $" + Double.toString(initialDeposit));
+				
+				transDAO.insertTransaction(transaction);
 				
 				request.getRequestDispatcher("login.jsp").forward(request, response);
 			}
