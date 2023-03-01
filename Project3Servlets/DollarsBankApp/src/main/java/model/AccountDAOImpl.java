@@ -106,7 +106,7 @@ public class AccountDAOImpl implements AccountDAO {
 			}
 			
 			// Account with this id already present
-			if (account != null) {
+			if (account.getCustUserId() != 0) {
 				return true;
 			}
 			
