@@ -14,7 +14,7 @@ public class AccountDAOImpl implements AccountDAO {
 	@Override
 	public boolean insertAccount(Account account) {
 		try {
-			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO account(custName, custAddress, "
+			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO accounts(custName, custAddress, "
 					+ "custPhone, custUserId, custPassword, custInitialDeposit, custBalance) values(?, ?, ?, ?, ?, ?, ?)");
 			
 			pstmt.setString(1, account.getCustName());
@@ -43,7 +43,7 @@ public class AccountDAOImpl implements AccountDAO {
 	public Account getAccount(int userId, String password) {
 		Account account = new Account();
 		try {
-			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM account WHERE custUserId=? AND custPassword=?");
+			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM accounts WHERE custUserId=? AND custPassword=?");
 			pstmt.setInt(1, userId);
 			pstmt.setString(2, password);
 			
@@ -82,7 +82,7 @@ public class AccountDAOImpl implements AccountDAO {
 		Account account = new Account();
 		
 		try {
-			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM account WHERE custUserId = ?");
+			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM accounts WHERE custUserId = ?");
 			pstmt.setInt(1, userId);
 			
 			ResultSet rs = pstmt.executeQuery();

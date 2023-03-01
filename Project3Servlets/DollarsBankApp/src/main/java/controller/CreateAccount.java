@@ -59,10 +59,18 @@ public class CreateAccount extends HttpServlet {
 				
 				
 				// TODO: Instantiate new account and add it to db if all is well
+				Account account = new Account();
+				account.setCustName(name);
+				account.setCustAddress(address);
+				account.setCustPhone(phone);
+				account.setCustUserId(id);
+				account.setCustPassword(password);
+				account.setCustInitialDeposit(initialDeposit);
+				account.setCustBalance(initialDeposit);
+				
+				accountDAO.insertAccount(account);
 				
 				request.getRequestDispatcher("login.jsp").forward(request, response);
-				
-
 			}
 			
 		}
