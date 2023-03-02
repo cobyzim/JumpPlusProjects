@@ -90,27 +90,7 @@ public class CreateAccount extends HttpServlet {
 			request.setAttribute("errList", errList);
 			
 			request.getRequestDispatcher("createAccount.jsp").forward(request, response);
-		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		}	
 		
 	}
 
