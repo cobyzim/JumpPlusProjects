@@ -1,6 +1,9 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,6 +34,13 @@ public class Transactions extends HttpServlet {
 		TransactionDAO transDAO = new TransactionDAOImpl();
 		
 		int userId = Integer.parseInt(request.getParameter("custId"));
+		
+		List<String> transList = transDAO.getFiveMostRecentTransactions(userId);
+		
+		request.setAttribute("transList", transList);
+		
+		
+		
 		
 		
 	}

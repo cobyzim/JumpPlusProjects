@@ -99,4 +99,32 @@ public class TransactionDAOImpl implements TransactionDAO {
 		return 0;
 	}
 
+	@Override
+	public List<String> getFiveMostRecentTransactions(int userId) {
+		List<String> recentFiveTransactionsList = new ArrayList<>();
+		
+		try {
+			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM transactionsTable WHERE custUserId = ? "
+					+ "ORDER BY transCounter DESC LIMIT 5");
+			
+			pstmt.setInt(1, userId);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				String transaction = rs.getString("transaction");
+				recentFiveTransactionsList.add(transaction);
+			}
+			
+			return recentFiveTransactionsList;
+			
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return null;
+	}
+
 }

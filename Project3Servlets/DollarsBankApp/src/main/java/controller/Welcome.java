@@ -1,11 +1,16 @@
 package controller;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import model.TransactionDAO;
+import model.TransactionDAOImpl;
 
 /**
  * Servlet implementation class CustomerChoices
@@ -28,6 +33,9 @@ public class Welcome extends HttpServlet {
 		String radio = request.getParameter("radios");
 		int userId = Integer.parseInt(request.getParameter("custId"));
 		
+		// TODO: Stuff just for transactions
+		TransactionDAO transDAO = new TransactionDAOImpl();
+		
 		// Take action based on selected button group
 		if (radio.equals("deposit")) {
 			request.setAttribute("custId", userId);
@@ -42,6 +50,8 @@ public class Welcome extends HttpServlet {
 			request.getRequestDispatcher("transfer.jsp").forward(request, response);
 		}
 		if (radio.equals("transactions")) {
+			List<String> transList = transDAO.getFiveMostRecentTransactions(userId);
+			request.setAttribute("transList", transList);
 			request.setAttribute("custId", userId);
 			request.getRequestDispatcher("transactions.jsp").forward(request, response);
 		}
