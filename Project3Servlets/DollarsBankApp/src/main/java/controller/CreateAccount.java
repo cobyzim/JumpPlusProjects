@@ -14,6 +14,7 @@ import model.Account;
 import model.AccountDAO;
 import model.AccountDAOImpl;
 import model.Transaction;
+import model.TransactionDAO;
 import model.TransactionDAOImpl;
 
 /**
@@ -35,7 +36,7 @@ public class CreateAccount extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		AccountDAO accountDAO = new AccountDAOImpl();
-		TransactionDAOImpl transDAO = new TransactionDAOImpl();
+		TransactionDAO transDAO = new TransactionDAOImpl();
 		
 		List<String> errList = new ArrayList<>();
 		

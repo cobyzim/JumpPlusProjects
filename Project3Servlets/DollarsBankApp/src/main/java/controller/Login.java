@@ -45,6 +45,8 @@ public class Login extends HttpServlet {
 			Account account = accountDAO.getAccount(userId, password);
 
 			if (account != null && account.getCustName() != null) {
+				request.setAttribute("custId", userId); // TODO: NEW
+				
 				request.getRequestDispatcher("welcome.jsp").forward(request, response);
 			} else {
 				errList.add("Invalid Credentials! Try Again or Create and Account");

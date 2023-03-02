@@ -120,4 +120,86 @@ public class AccountDAOImpl implements AccountDAO {
 		return false;
 	}
 
+	@Override
+	public Account getAccountById(int userId) {
+		Account account = new Account();
+		
+		try {
+			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM accounts WHERE custUserId = ?");
+			pstmt.setInt(1, userId);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				String custName = rs.getString("custName");
+				String custAddress = rs.getString("custAddress");
+				int custPhone = rs.getInt("custPhone");
+				int custId = rs.getInt("custUserId");
+				String custPassword = rs.getString("custPassword");
+				double custInitialBalance = rs.getDouble("custInitialDeposit");
+				double custBalance = rs.getDouble("custBalance");
+				
+				account.setCustName(custName);
+				account.setCustAddress(custAddress);
+				account.setCustPhone(custPhone);
+				account.setCustUserId(custId);
+				account.setCustPassword(custPassword);
+				account.setCustInitialDeposit(custInitialBalance);
+				account.setCustBalance(custBalance);
+			}
+			
+			// Account with this id already present
+			if (account.getCustUserId() != 0) {
+				return account;
+			}
+			
+			
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+		
+	}
+
+	@Override
+	public boolean updateBalance(double total, int custId) {
+		try {
+			PreparedStatement pstmt = conn.prepareStatement("UPDATE accounts SET custBalance = ? WHERE custUserId = ?");
+			pstmt.setDouble(1, total);
+			pstmt.setInt(2, custId);
+			
+			int i = pstmt.executeUpdate();
+			
+			if (i > 0) {
+				return true;
+			}
+			
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

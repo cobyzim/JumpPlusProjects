@@ -10,9 +10,7 @@
 </head>
 <body>
 
-	<%  // TODO: When doing java code, use a string builder to get all error
-	    // messages before showing them in the alert or just concatenate
-	    // the strings into one string (latter probably better)
+	<%  
 	    List<String> errList = (ArrayList<String>) request.getAttribute("errList");
 		if (errList != null) {
 			for (String error : errList) {
