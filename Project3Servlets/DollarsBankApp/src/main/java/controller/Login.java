@@ -45,7 +45,7 @@ public class Login extends HttpServlet {
 			Account account = accountDAO.getAccount(userId, password);
 
 			if (account != null && account.getCustName() != null) {
-				request.setAttribute("custId", userId); // TODO: NEW
+				request.setAttribute("custId", userId);
 				
 				request.getRequestDispatcher("welcome.jsp").forward(request, response);
 			} else {

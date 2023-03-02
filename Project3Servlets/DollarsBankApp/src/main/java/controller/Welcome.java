@@ -34,23 +34,23 @@ public class Welcome extends HttpServlet {
 			request.getRequestDispatcher("deposit.jsp").forward(request, response);
 		}
 		if (radio.equals("withdrawal")) {
-			//TODO Set cust Id attribute
+			request.setAttribute("custId", userId);
 			request.getRequestDispatcher("withdrawal.jsp").forward(request, response);
 		}
 		if (radio.equals("transfer")) {
-			//TODO Set cust Id attribute
+			request.setAttribute("custId", userId);
 			request.getRequestDispatcher("transfer.jsp").forward(request, response);
 		}
 		if (radio.equals("transactions")) {
-			//TODO Set cust Id attribute
+			request.setAttribute("custId", userId);
 			request.getRequestDispatcher("transactions.jsp").forward(request, response);
 		}
 		if (radio.equals("info")) {
-			//TODO Set cust Id attribute
+			request.setAttribute("custId", userId);
 			request.getRequestDispatcher("info.jsp").forward(request, response);
 		}
 		if (radio.equals("exit")) {
-			//TODO Set cust Id attribute
+			request.setAttribute("custId", userId);
 			request.getRequestDispatcher("login.jsp").forward(request, response);
 		}
 	}

@@ -15,16 +15,16 @@ import model.TransactionDAO;
 import model.TransactionDAOImpl;
 
 /**
- * Servlet implementation class Deposit
+ * Servlet implementation class Withdrawal
  */
-@WebServlet("/deposit")
-public class Deposit extends HttpServlet {
+@WebServlet("/withdrawal")
+public class Withdrawal extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Deposit() {
+    public Withdrawal() {
         super();
     }
 
@@ -35,29 +35,32 @@ public class Deposit extends HttpServlet {
 		AccountDAO accountDAO = new AccountDAOImpl();
 		TransactionDAO transDAO = new TransactionDAOImpl();
 		
-		// retrieve deposit amount
-		double depositAmount = Double.parseDouble(request.getParameter("newdeposit"));
+		// retrieve withdrawal amount
+		double withdrawalAmount = Double.parseDouble(request.getParameter("withdrawal"));
 		
-		// get logged in id from jsp
 		int userId = Integer.parseInt(request.getParameter("custId"));
 		
-		// Use this id to update account balance in db
 		Account account = accountDAO.getAccountById(userId);
 		
-		double newBalance = account.getCustBalance() + depositAmount;
+		double newBalance = account.getCustBalance() - withdrawalAmount;
 		
-		accountDAO.updateBalance(newBalance, userId);
-		
-		// Make new transaction
-		Transaction transaction = new Transaction();
-		transaction.setCustUserId(userId);
-		transaction.setTransaction("Deposit of $" + Double.toString(depositAmount));
-		
-		transDAO.insertTransaction(transaction);
-		
-		request.setAttribute("custId", userId);
-		
-		request.getRequestDispatcher("welcome.jsp").forward(request, response);
+		if (newBalance < 0) {
+			request.setAttribute("custId", userId);
+			request.setAttribute("errorMsg", "Cannot Withdraw More Than Is In Your Account!");
+			request.getRequestDispatcher("withdrawal.jsp").forward(request, response);
+		}
+		else {
+			accountDAO.updateBalance(newBalance, userId);
+			
+			Transaction transaction = new Transaction();
+			transaction.setCustUserId(userId);
+			transaction.setTransaction("Withdrawal of $" + Double.toString(withdrawalAmount));
+			
+			transDAO.insertTransaction(transaction);
+			
+			request.setAttribute("custId", userId);
+			request.getRequestDispatcher("welcome.jsp").forward(request, response);
+		}
 	}
 
 }
