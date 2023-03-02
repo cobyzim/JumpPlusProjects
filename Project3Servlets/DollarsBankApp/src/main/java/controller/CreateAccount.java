@@ -79,6 +79,7 @@ public class CreateAccount extends HttpServlet {
 				Transaction transaction = new Transaction();
 				transaction.setCustUserId(id);
 				transaction.setTransaction("Initial Deposit of $" + Double.toString(initialDeposit));
+				transaction.setTransCounter(1);
 				
 				transDAO.insertTransaction(transaction);
 				

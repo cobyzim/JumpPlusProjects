@@ -75,6 +75,9 @@ public class Transfer extends HttpServlet {
 				Transaction transaction = new Transaction();
 				transaction.setCustUserId(userId);
 				transaction.setTransaction("Transfer sent of $" + Double.toString(transferAmount) + " to User With Id: " + Integer.toString(transferId));
+				int currentTransNum = transDAO.getCurrentTransactionNumber(userId);
+				int newTransNum = currentTransNum + 1;
+				transaction.setTransCounter(newTransNum);
 				transDAO.insertTransaction(transaction);
 				
 				double newAccountTwoBalance = transferAccount.getCustBalance() + transferAmount;
@@ -84,13 +87,15 @@ public class Transfer extends HttpServlet {
 				Transaction transactionTwo = new Transaction();
 				transactionTwo.setCustUserId(transferId);
 				transactionTwo.setTransaction("Transfer received of $" + Double.toString(transferAmount) + " from User With Id: " + Integer.toString(userId));
+				int currentTransNum2 = transDAO.getCurrentTransactionNumber(transferId);
+				int newTransNum2 = currentTransNum2 + 1;
+				transactionTwo.setTransCounter(newTransNum2);
 				transDAO.insertTransaction(transactionTwo);
 				
 				request.setAttribute("custId", userId);
 				request.getRequestDispatcher("welcome.jsp").forward(request, response);
 				
 			}
-			
 			
 		}
 		

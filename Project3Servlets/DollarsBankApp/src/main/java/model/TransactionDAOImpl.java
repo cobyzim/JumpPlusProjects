@@ -16,11 +16,12 @@ public class TransactionDAOImpl implements TransactionDAO {
 	@Override
 	public boolean insertTransaction(Transaction transaction) {
 		try {
-			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO transactions(custUserId, transaction) "
-					+ "values(?, ?)");
+			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO transactionsTable(custUserId, transaction, transCounter) "
+					+ "values(?, ?, ?)");
 			
 			pstmt.setInt(1, transaction.getCustUserId());
 			pstmt.setString(2, transaction.getTransaction());
+			pstmt.setInt(3, transaction.getTransCounter());
 			
 			int i = pstmt.executeUpdate();
 			
@@ -41,7 +42,7 @@ public class TransactionDAOImpl implements TransactionDAO {
 		Transaction trans = new Transaction();
 		
 		try {
-			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM transactions WHERE custUserId = ?");
+			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM transactionsTable WHERE custUserId = ?");
 			
 			pstmt.setInt(1, userId);
 			
@@ -50,9 +51,11 @@ public class TransactionDAOImpl implements TransactionDAO {
 			while(rs.next()) {
 				int custId = rs.getInt("custUserId");
 				String transaction = rs.getString("transaction");
+				int transCounter = rs.getInt("transCounter");
 				
 				trans.setCustUserId(userId);
 				trans.setTransaction(transaction);
+				trans.setTransCounter(transCounter);
 				
 				transList.add(trans);
 			}
@@ -65,6 +68,35 @@ public class TransactionDAOImpl implements TransactionDAO {
 		}
 		
 		return null;
+	}
+
+	@Override
+	public int getCurrentTransactionNumber(int userId) {		
+		try {
+			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM transactionsTable WHERE custUserId = ?");
+			
+			pstmt.setInt(1, userId);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			int highestNumTransaction = 0;
+			while (rs.next()) {
+				
+				int transCounter = rs.getInt("transCounter");
+				
+				if (transCounter > highestNumTransaction) {
+					highestNumTransaction = transCounter;
+				}
+			}
+			
+			return highestNumTransaction;
+			
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return 0;
 	}
 
 }

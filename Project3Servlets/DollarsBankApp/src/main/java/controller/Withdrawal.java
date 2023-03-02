@@ -55,6 +55,9 @@ public class Withdrawal extends HttpServlet {
 			Transaction transaction = new Transaction();
 			transaction.setCustUserId(userId);
 			transaction.setTransaction("Withdrawal of $" + Double.toString(withdrawalAmount));
+			int currentTransNum = transDAO.getCurrentTransactionNumber(userId);
+			int newTransNum = currentTransNum + 1;
+			transaction.setTransCounter(newTransNum);
 			
 			transDAO.insertTransaction(transaction);
 			

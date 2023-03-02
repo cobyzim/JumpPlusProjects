@@ -52,6 +52,9 @@ public class Deposit extends HttpServlet {
 		Transaction transaction = new Transaction();
 		transaction.setCustUserId(userId);
 		transaction.setTransaction("Deposit of $" + Double.toString(depositAmount));
+		int currentTransNum = transDAO.getCurrentTransactionNumber(userId);
+		int newTransNum = currentTransNum + 1;
+		transaction.setTransCounter(newTransNum);
 		
 		transDAO.insertTransaction(transaction);
 		

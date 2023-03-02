@@ -4,10 +4,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Transactions</title>
 </head>
 <body>
-	<h1>Transaction Page</h1>
+	<h3>Your Transactions: </h3>
+	
+	
 
 </body>
 </html>
