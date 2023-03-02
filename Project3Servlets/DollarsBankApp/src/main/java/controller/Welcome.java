@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.Account;
+import model.AccountDAO;
+import model.AccountDAOImpl;
 import model.TransactionDAO;
 import model.TransactionDAOImpl;
 
@@ -33,7 +36,7 @@ public class Welcome extends HttpServlet {
 		String radio = request.getParameter("radios");
 		int userId = Integer.parseInt(request.getParameter("custId"));
 		
-		// TODO: Stuff just for transactions
+		AccountDAO accountDAO = new AccountDAOImpl();
 		TransactionDAO transDAO = new TransactionDAOImpl();
 		
 		// Take action based on selected button group
@@ -56,6 +59,17 @@ public class Welcome extends HttpServlet {
 			request.getRequestDispatcher("transactions.jsp").forward(request, response);
 		}
 		if (radio.equals("info")) {
+			Account account = new Account();
+			account = accountDAO.getAccountById(userId);
+			String custName = account.getCustName();
+			String custAddress = account.getCustAddress();
+			int phoneNumber = account.getCustPhone();
+			double balance = account.getCustBalance();
+			request.setAttribute("custName", custName);
+			request.setAttribute("custAddress", custAddress);
+			request.setAttribute("phoneNumber", phoneNumber);
+			request.setAttribute("balance", balance);
+			
 			request.setAttribute("custId", userId);
 			request.getRequestDispatcher("info.jsp").forward(request, response);
 		}

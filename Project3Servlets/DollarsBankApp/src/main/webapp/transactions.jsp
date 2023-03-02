@@ -19,8 +19,6 @@
 			<p><%=trans %></p>
 			<%
 		}
-		
-		//Then make form for done button to go back to welcome
 	%>
 
 </body>
